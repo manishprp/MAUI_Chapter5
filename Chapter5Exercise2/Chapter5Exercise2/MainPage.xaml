@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Shell.NavBarIsVisible="False"
+             xmlns:viewModel="clr-namespace:Chapter5Exercise2.ViewModel.ExpenseManagerViewModel"
+             x:Class="Chapter5Exercise2.MainPage">
+    <ContentPage.BindingContext>
+        <viewModel:ExpenseManagerViewModel/>
+    </ContentPage.BindingContext>
+
+        <StackLayout
+            BackgroundColor="#dcdcdc"
+            >
+            <Frame
+                CornerRadius="5"
+                BackgroundColor="#88cff8">
+            <VerticalStackLayout
+                Spacing="20">
+            <HorizontalStackLayout
+                Spacing="5"
+                HorizontalOptions="Center">
+            <Label
+                HorizontalOptions="Center"
+                TextColor="#086311"
+                FontAttributes="Bold"
+                FontSize="22"
+                Text="Total Expense:"/>
+            <Label
+                HorizontalOptions="Center"
+                TextColor="White"
+                FontAttributes="Bold"
+                FontSize="22"
+                Text="{Binding TotalAmount}"/>
+                    </HorizontalStackLayout>
+                    <Entry
+                        Text="{Binding ExpenseName}"
+                TextColor="White"
+                PlaceholderColor="#dcdcdc"
+                FontSize="Large"
+                FontAttributes="Bold"
+                Placeholder="Expense Name"/>
+            <Entry
+                Text="{Binding Amount}"
+                TextColor="White"
+                PlaceholderColor="#dcdcdc"
+                FontSize="Large"
+                FontAttributes="Bold"
+                Placeholder="Amount"/>
+            <Button
+                Command="{Binding AddExpenseCommand}"
+                CornerRadius="30"
+                Text="Add Expense"
+                BackgroundColor="#6498e9"/>
+            </VerticalStackLayout>
+            </Frame>
+            
+                <CollectionView
+                    x:Name="CollectionView"
+               VerticalOptions="FillAndExpand"
+                HorizontalOptions="FillAndExpand"
+                ItemsSource="{Binding ExpenseDataList}"
+                Margin="10">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <SwipeView>
+                            <SwipeView.RightItems>
+                                <SwipeItems>
+                                    <SwipeItem
+                                        Text="Delete"
+                                        BackgroundColor="#cc5b5d"
+                                        IconImageSource="dotnet_bot"
+                                        Command="{Binding Source={x:Reference CollectionView},Path=BindingContext.DeleteCommand}"
+                                        CommandParameter="{Binding}"
+                                        />
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+                            <StackLayout>
+                            <Border
+                            Margin="0,15,0,0"
+                            Stroke="#c9c9c9"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 10">
+                        <StackLayout
+                            Orientation="Horizontal"
+                            BackgroundColor="White"
+                            Padding="20">
+                                <Label
+                                    VerticalOptions="Center"
+                                    Text="{Binding ExpenseName}"
+                                    HorizontalOptions="Start"
+                                    FontAttributes="Bold"
+                                    TextColor="#252525"
+                                    FontSize="Medium"/>
+                                <Label
+                                    VerticalOptions="Center"
+                                    Text="{Binding ExpenseAmount}"
+                                    HorizontalOptions="EndAndExpand"
+                                    FontAttributes="Bold"
+                                    TextColor="#252525"
+                                    FontSize="Medium"/>
+                            </StackLayout>
+                        </Border>
+                            </StackLayout>
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.EmptyView>
+                    <ContentView>
+                        <StackLayout
+                            HorizontalOptions="CenterAndExpand"
+                            VerticalOptions="CenterAndExpand">
+                        <Image
+                            Source="search_icon"
+                            WidthRequest="100"
+                            HeightRequest="100"/>
+                        <Label
+                            FontSize="35"
+                            Text="No Expense Added"
+                            TextColor="#fea32a"
+                            FontAttributes="Bold"/>
+                    </StackLayout>
+                    </ContentView>
+                </CollectionView.EmptyView>
+            </CollectionView>
+        </StackLayout>
+
+</ContentPage>

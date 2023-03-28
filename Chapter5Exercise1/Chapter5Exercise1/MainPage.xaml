@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Shell.NavBarIsVisible="False"
+             xmlns:template="clr-namespace:Chapter5Exercise1.FoodTemplateSelector"
+             xmlns:viewModel="clr-namespace:Chapter5Exercise1.ViewModel.RecipeViewModel"
+             x:Class="Chapter5Exercise1.MainPage">
+    <ContentPage.BindingContext>
+        <viewModel:RecipeViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <DataTemplate x:Key="NewTemplate">
+            <Border
+                        Margin="0,15,0,0"
+                        StrokeThickness="0"
+                        Stroke="white"
+                        StrokeShape="RoundRectangle 15">
+                <Grid
+                        BackgroundColor="White">
+                    <StackLayout
+                            Spacing="10"
+                            Orientation="Horizontal">
+                        <Image
+                                    Margin="20,20,10,20"
+                                    Source="dotnet_bot"
+                                    WidthRequest="60"
+                                    HeightRequest="60"/>
+                        <VerticalStackLayout
+                                    Spacing="10"
+                                    VerticalOptions="Center">
+                            <Label
+                                        TextColor="#303030"
+                                        FontSize="Large"
+                                        Text="{Binding Name}"/>
+                            <HorizontalStackLayout
+                                        Spacing="10">
+                                <Image
+                                            Source="dotnet_bot"
+                                            WidthRequest="20"
+                                            HeightRequest="20"/>
+                                <Label
+                                            
+                                            FontAttributes="Bold"
+                                            Text="{Binding Ratings}"/>
+                                <Image
+                                            Margin="5,0,5,0"
+                                            WidthRequest="15"
+                                            HeightRequest="15"
+                                            Source="dotnet_bot"/>
+                                <Label
+                                            FontAttributes="Bold"
+                                            Text="{Binding Calories}"/>
+                                <Label
+                                            FontAttributes="Bold"
+                                            Text="KCal"/>
+                                <Image
+                                            Margin="5,0,5,0"
+                                            WidthRequest="20"
+                                            HeightRequest="20"
+                                            Source="dotnet_bot"/>
+                                <Label
+                                            FontAttributes="Bold"
+                                            Text="{Binding Time}"/>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </StackLayout>
+                    <Border
+                        VerticalOptions="Start"
+                        HorizontalOptions="End"
+                        StrokeThickness="0"
+                        Stroke="white"
+                        StrokeShape="RoundRectangle 0,15,15,0">
+                        <Border.Content>
+                            <Label
+                                        Padding="15,5,15,5"
+                                        FontAttributes="Bold"
+                                        FontSize="Small"
+                                        TextColor="White"
+                                        BackgroundColor="#41b275"
+                                        Text="New"/>
+                        </Border.Content>
+                    </Border>
+                </Grid>
+            </Border>
+        </DataTemplate>
+        <DataTemplate x:Key="OldTemplate">
+            <Border
+                        Margin="0,15,0,0"
+                        StrokeThickness="0"
+                        Stroke="white"
+                        StrokeShape="RoundRectangle 15">
+                <Grid
+                        BackgroundColor="White">
+                    <StackLayout
+                            Spacing="10"
+                            Orientation="Horizontal">
+                        <Image
+                                    Margin="20,20,10,20"
+                                    Source="dotnet_bot"
+                                    WidthRequest="60"
+                                    HeightRequest="60"/>
+                        <VerticalStackLayout
+                                    Spacing="10"
+                                    VerticalOptions="Center">
+                            <Label
+                                        TextColor="#303030"
+                                        FontSize="Large"
+                                        Text="{Binding Name}"/>
+                            <HorizontalStackLayout
+                                        Spacing="10">
+                                <Image
+                                            Source="dotnet_bot"
+                                            WidthRequest="20"
+                                            HeightRequest="20"/>
+                                <Label
+                                            
+                                            FontAttributes="Bold"
+                                            Text="{Binding Ratings}"/>
+                                <Image
+                                            Margin="5,0,5,0"
+                                            WidthRequest="15"
+                                            HeightRequest="15"
+                                            Source="dotnet_bot"/>
+                                <Label
+                                            FontAttributes="Bold"
+                                            Text="{Binding Calories}"/>
+                                <Label
+                                            FontAttributes="Bold"
+                                            Text="KCal"/>
+                                <Image
+                                            Margin="5,0,5,0"
+                                            WidthRequest="20"
+                                            HeightRequest="20"
+                                            Source="dotnet_bot"/>
+                                <Label
+                                            FontAttributes="Bold"
+                                            Text="{Binding Time}"/>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </StackLayout>
+                </Grid>
+            </Border>
+        </DataTemplate>
+        <template:FoodTemplateSelector
+            x:Key="TemplateSelector"
+            WithNewDataTemplate="{StaticResource NewTemplate}"
+            WithoutNewDataTemplate="{StaticResource OldTemplate}"/>
+    </ContentPage.Resources>
+    <ScrollView>
+    <StackLayout
+        VerticalOptions="FillAndExpand"
+        Padding="10"
+        BackgroundColor="#ffeed7">
+        <HorizontalStackLayout
+            HorizontalOptions="Center">
+        <Label
+            TextTransform="Uppercase"
+            HorizontalOptions="Center"
+            FontSize="25"
+            FontAttributes="Bold"
+            TextColor="#0d7f19"
+            Text="Easy"/>
+            <Label
+                TextTransform="Uppercase"
+                HorizontalOptions="Center"
+                FontSize="25"
+                FontAttributes="Bold"
+                TextColor="#212121"
+                Text="Food"/>
+        </HorizontalStackLayout>
+        <CollectionView
+            VerticalOptions="Fill"
+            ItemsSource="{Binding Recipes}"
+            ItemTemplate="{StaticResource TemplateSelector}">
+        </CollectionView>
+    </StackLayout>
+    </ScrollView>
+</ContentPage>

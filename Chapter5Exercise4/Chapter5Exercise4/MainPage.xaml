@@ -1,0 +1,248 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Shell.NavBarIsVisible="False"
+             Padding="16"
+             xmlns:template="clr-namespace:Chapter5Exercise4.CategoryTemplateSelectorClass"
+             xmlns:viewModel="clr-namespace:Chapter5Exercise4.ViewModel.ShoppingViewModel"
+             x:Class="Chapter5Exercise4.MainPage">
+
+    <ContentPage.BindingContext>
+        <viewModel:ShoppingViewModel/>
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <DataTemplate
+            x:Key="UnselectedCategoryTemplate">
+            <Border
+                        Stroke="#cacacc"
+                        StrokeThickness="2"
+                        StrokeShape="RoundRectangle 15">
+                <Border.Content>
+                    <Label
+                                FontSize="Medium"
+                                TextColor="Black"
+                                Text="All"
+                                Padding="15"/>
+                </Border.Content>
+            </Border>
+        </DataTemplate>
+        <DataTemplate
+            x:Key="SelectedCategoryTemplate">
+            <Border
+                BackgroundColor="Black"
+                        Stroke="Black"
+                        StrokeThickness="2"
+                        StrokeShape="RoundRectangle 15">
+                <Border.Content>
+                    <Label
+                                FontSize="Medium"
+                                TextColor="White"
+                                Text="All"
+                                Padding="15"/>
+                </Border.Content>
+            </Border>
+        </DataTemplate>
+        <template:CategoryTemplateSelectorClass
+            x:Key="TemplateSelector"
+            SelectedTemplate="{StaticResource SelectedCategoryTemplate}"
+            UnSelectedCategory="{StaticResource UnselectedCategoryTemplate}"/>
+    </ContentPage.Resources>
+
+    <StackLayout
+        Spacing="20">
+        <Label
+            HorizontalOptions="Start"
+            TextColor="Black"
+            FontAttributes="Bold"
+            FontSize="Large"
+            Text="Find Your Clothes"/>
+        <StackLayout
+            Orientation="Horizontal"
+            BackgroundColor="#ffebd0"
+            HorizontalOptions="FillAndExpand">
+            <VerticalStackLayout
+                HorizontalOptions="StartAndExpand"
+                Padding="16"
+                Spacing="15"
+                VerticalOptions="Center">
+                <Label
+                    FontSize="Small"
+                    FontAttributes="Bold"
+                    Text="Dec 16-Dec 31"
+                    TextColor="#ebbe75"/>
+                <Label
+                    TextColor="Black"
+                    FontAttributes="Bold"
+                    FontSize="Large"
+                    Text="25% OFF"/>
+                <Label
+                    TextColor="Black"
+                    FontAttributes="Bold"
+                    FontSize="Small"
+                    Text="Super Discount"/>
+
+
+
+            </VerticalStackLayout>
+            <Image
+                HorizontalOptions="EndAndExpand"
+                WidthRequest="100"
+                HeightRequest="150"
+                Source="shirt"/>
+        </StackLayout>
+        <CollectionView
+            x:Name="MainCollection"
+            SelectionChangedCommand="{Binding CategoryChangesCommand}"
+            SelectionMode="Single"
+            SelectedItem="{Binding SelectedItem}"
+            ItemsSource="{Binding CategoryDataModel}"
+            ItemsLayout="HorizontalList">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <ContentView>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup
+                                Name="CategoryGroup">
+                                <VisualState Name="Normal"/>
+                                <VisualState Name="Selected">
+                                <VisualState.Setters>
+                                    <Setter
+                                            TargetName="BorderTarget"
+                                            Property="Border.Stroke"
+                                            Value="Black">
+
+                                    </Setter>
+                                    <Setter
+                                            TargetName="BorderTarget"
+                                            Property="Border.BackgroundColor"
+                                            Value="Black">
+
+                                    </Setter>
+                                    <Setter
+                                            TargetName="CategoryLabel"
+                                            Property="Label.TextColor"
+                                            Value="White">
+                                    </Setter>
+                                </VisualState.Setters>
+                                    </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Border
+                            Margin="0,0,15,0"
+                        x:Name="BorderTarget"
+                        Stroke="#cacacc"
+                        StrokeThickness="2"
+                        StrokeShape="RoundRectangle 15">
+                        <Border.Content>
+                            <Label
+                                x:Name="CategoryLabel"
+                                FontSize="Medium"
+                                TextColor="Black"
+                                Text="{Binding CategoryName}"
+                                Padding="15"/>
+                        </Border.Content>
+                    </Border>
+                    </ContentView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            
+            
+        </CollectionView>
+
+        <CollectionView
+            BindingContext="{x:Reference MainCollection}"
+            ItemsSource="{Binding Path=SelectedItem.Clothes}"
+            VerticalOptions="FillAndExpand"
+            ItemsLayout="VerticalGrid, 2"
+            HorizontalOptions="FillAndExpand">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <ContentView>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup
+                                Name="CategoryGroup">
+                                <VisualState Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter
+                                            TargetName="Heart"
+                                            Property="ImageButton.Source"
+                                            Value="heart_empty">
+                                        </Setter>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState Name="Pressed">
+                                    <VisualState.Setters>
+                                        <Setter
+                                            TargetName="Heart"
+                                            Property="ImageButton.Source"
+                                            Value="heart_red">
+                                        </Setter>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Grid
+                            Grid.Column="0">
+                            
+                            <Border
+                        
+                        Stroke="#dedfe0"
+                        StrokeThickness="2"
+                        StrokeShape="RoundRectangle 15">
+                        <StackLayout
+                            Spacing="15">
+                            <Image
+                                HorizontalOptions="Center"
+                                Source="{Binding ImageSource}"
+                                HeightRequest="200"/>
+                            <Label
+                                HorizontalOptions="Center"
+                                FontSize="Medium"
+                                TextColor="Black"
+                                Text="{Binding Name}"/>
+                            <Label
+                                HorizontalOptions="Center"
+                                FontSize="Medium"
+                                TextColor="Black"
+                                Text="{Binding Price}"/>
+                        </StackLayout>
+                            </Border>
+                           
+                            <ImageButton
+                                x:Name="Heart"
+                                Source="heart_empty"
+                                HorizontalOptions="End"
+                                VerticalOptions="Start"
+                                Margin="15"
+                                WidthRequest="25"
+                                HeightRequest="25"/>
+                        </Grid>
+
+
+
+
+
+                    </ContentView>
+                </DataTemplate>
+                
+                
+                
+                
+                
+            </CollectionView.ItemTemplate>
+            
+            
+            
+            
+            
+            
+            
+            
+        </CollectionView>
+
+
+
+    </StackLayout>
+
+</ContentPage>
